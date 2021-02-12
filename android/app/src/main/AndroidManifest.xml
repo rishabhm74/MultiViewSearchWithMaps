@@ -2,6 +2,8 @@
   package="com.mapsmultiview">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
       android:name=".MainApplication"
@@ -12,7 +14,7 @@
       android:theme="@style/AppTheme">
       <meta-data
         android:name="com.google.android.geo.API_KEY"
-        android:value="AIzaSyD2oqHl_llg79GSg5_-e5Ne4qtYPZ1tuA0"/>
+        android:value="AIzaSyC_hIHVqhu0NmaC5qcNf3op3qD74DxQMAo"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
