@@ -11,7 +11,8 @@ import {
   Dimensions,
   TextInput,
   PermissionsAndroid,
-  Button
+  Button,
+  TouchableOpacity
 } from 'react-native';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
 import LinearGradient from 'react-native-linear-gradient';
@@ -81,7 +82,12 @@ const mapStyle = [
 
 const MainScreen = () =>  {
   const [ address, setAddress ] = useState('Swagat Apartment, Anand Mahal Road, Adajan, Surat, Gujarat');
+  const [ listView, setListView ] = useState(true);
   // const [ address, setAddress ] = useState('');
+
+  const viewChangeHandler = (listView) => {
+    setListView(!listView)
+  }
   async function requestLocationPermission() {
     const checkLocationPermission = PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
     if (checkLocationPermission === PermissionsAndroid.RESULTS.GRANTED) {
@@ -98,12 +104,12 @@ const MainScreen = () =>  {
           Geolocation.getCurrentPosition(
             (position) => {
               console.log(position.coords.longitude, position.coords.latitude);
-              // Geocoder.from(41.89, 12.49)
-              // .then(json => {
-              //   var addressComp = json.results[0].address_components[0];
-              //   console.log(addressComp);
-              // })
-              // .catch(err => console.log(err))
+              Geocoder.from(41.89, 12.49)
+              .then(json => {
+                var addressComp = json.results[0].address_components[0];
+                console.log(addressComp);
+              })
+              .catch(err => console.log(err))
             },
             (error) => {
               console.log(error.message);
@@ -124,7 +130,7 @@ const MainScreen = () =>  {
 
   useEffect(() => {
     const granted = false;
-    requestLocationPermission();
+    // requestLocationPermission();
 
     // Geolocation.getCurrentPosition((position) => {
     //   console.log(position)
@@ -150,26 +156,6 @@ const MainScreen = () =>  {
         barStyle="dark-content"
         backgroundColor="#ffffff00"
       />
-      <MapView
-        provider={PROVIDER_GOOGLE} 
-        style={styles.map}
-        region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.015,
-          longitudeDelta: 0.0121,
-        }}
-        customMapStyle={mapStyle}
-        
-      >
-      </MapView>
-
-
-      {/* <View style={styles.searchBarContainer} /> */}
-      {/* <LinearGradient 
-        style={styles.bottomGrad}
-        colors={['#ffffff00', '#ffffff75','#ffffff']}
-      /> */}
 
       <View style={styles.searchBarMainContainer}>
         <Text 
@@ -179,43 +165,240 @@ const MainScreen = () =>  {
           {address}
         </Text>
       </View>
-      <View 
-        style={styles.cardsViewContainer}
+
+      <TouchableNativeFeedback
+        onPress={() => viewChangeHandler(listView)}
       >
-        <ScrollView 
-          horizontal 
-          showsHorizontalScrollIndicator={false}
+        <View style={styles.viewChangerContainer}>
+          {
+            listView === true ?
+            <Image 
+              source={require('./assets/icons/mapView.png')}
+              style={styles.viewChangerImg}
+            /> : 
+            <Image 
+              source={require('./assets/icons/menuView.png')}
+              style={styles.viewChangerImg}
+            /> 
+            
+          }
+        </View>
+      </TouchableNativeFeedback>
+
+
+      
+      {
+        listView === true ?
+        <ScrollView
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            paddingRight: (screenWidth - (screenWidth * 0.9)) / 2,
-            paddingLeft: 10
+            paddingTop: StatusBar.currentHeight + 10 + 65 + 20
           }}
-          snapToInterval={  CARD_WIDTH + 20 }
-          snapToAlignment="center"
-
         >
-          <View style={styles.mainCardViewContainer}>
-            <View style={styles.cardDistanceContainer} />
-            <View style={styles.mainCard} />
-          </View>
-          <View style={styles.mainCardViewContainer}>
-            <View style={styles.cardDistanceContainer} />
-            <View style={styles.mainCard} />
-          </View>
-          <View style={styles.mainCardViewContainer}>
-            <View style={styles.cardDistanceContainer} />
-            <View style={styles.mainCard} />
-          </View>
-          <View style={styles.mainCardViewContainer}>
-            <View style={styles.cardDistanceContainer} />
-            <View style={styles.mainCard} />
-          </View>
-          <View style={styles.mainCardViewContainer}>
-            <View style={styles.cardDistanceContainer} />
-            <View style={styles.mainCard} />
-          </View>
-        </ScrollView>
+          <View style={styles.searchBlocksViewContainer}>
 
-      </View>
+            <View style={styles.mainSearchBlockView}>
+              <View style={styles.searchBlock}>
+                <View style={styles.searchBlockLeft}>
+                  <View style={styles.restaurantImgView}>
+                    <Image 
+                      source={require('./assets/images/restaurants/1.jpg')}
+                      style={styles.restaurantImg}
+                    />
+                  </View>
+                </View>
+                <View style={styles.searchBlockCenter}>
+                  <Text style={styles.restaurantName}>
+                    Dil Se Re Restaurant
+                  </Text>
+                  <Text style={styles.specialitiesTitle}>
+                    Specialities
+                  </Text>
+                  <View style={styles.specialitiesBlocksContainer}>
+                  
+                  </View> 
+                </View>
+                <View style={styles.searchBlockRight}>
+                  <Image 
+                    source={require('./assets/icons/heartInactive.png')}
+                    style={styles.heartImg}
+                  />
+                </View>
+              </View>
+              <View style={styles.borderBottomSearchBlock} />
+            </View>
+
+            <View style={styles.mainSearchBlockView}>
+              <View style={styles.searchBlock}>
+                <View style={styles.searchBlockLeft}>
+                  <View style={styles.restaurantImgView}>
+                    <Image 
+                      source={require('./assets/images/restaurants/2.jpg')}
+                      style={styles.restaurantImg}
+                    />
+                  </View>
+                </View>
+                <View style={styles.searchBlockCenter}>
+                  <Text style={styles.restaurantName}>
+                    Dil Se Re Restaurant
+                  </Text>
+                  <Text style={styles.specialitiesTitle}>
+                    Specialities
+                  </Text>
+                  <View style={styles.specialitiesBlocksContainer}>
+                  
+                  </View> 
+                </View>
+                <View style={styles.searchBlockRight}>
+                  <Image 
+                    source={require('./assets/icons/heartInactive.png')}
+                    style={styles.heartImg}
+                  />
+                </View>
+              </View>
+              <View style={styles.borderBottomSearchBlock} />
+            </View>
+
+            <View style={styles.mainSearchBlockView}>
+              <View style={styles.searchBlock}>
+                <View style={styles.searchBlockLeft}>
+                  <View style={styles.restaurantImgView}>
+                    <Image 
+                      source={require('./assets/images/restaurants/3.jpg')}
+                      style={styles.restaurantImg}
+                    />
+                  </View>
+                </View>
+                <View style={styles.searchBlockCenter}>
+                  <Text style={styles.restaurantName}>
+                    Dil Se Re Restaurant
+                  </Text>
+                  <Text style={styles.specialitiesTitle}>
+                    Specialities
+                  </Text>
+                  <View style={styles.specialitiesBlocksContainer}>
+                  
+                  </View> 
+                </View>
+                <View style={styles.searchBlockRight}>
+                  <Image 
+                    source={require('./assets/icons/heartInactive.png')}
+                    style={styles.heartImg}
+                  />
+                </View>
+              </View>
+              <View style={styles.borderBottomSearchBlock} />
+            </View>
+
+            <View style={styles.mainSearchBlockView}>
+              <View style={styles.searchBlock}>
+                <View style={styles.searchBlockLeft}>
+                  <View style={styles.restaurantImgView}>
+                    <Image 
+                      source={require('./assets/images/restaurants/4.jpg')}
+                      style={styles.restaurantImg}
+                    />
+                  </View>
+                </View>
+                <View style={styles.searchBlockCenter}>
+                  <Text style={styles.restaurantName}>
+                    Dil Se Re Restaurant
+                  </Text>
+                  <Text style={styles.specialitiesTitle}>
+                    Specialities
+                  </Text>
+                  <View style={styles.specialitiesBlocksContainer}>
+                  
+                  </View> 
+                </View>
+                <View style={styles.searchBlockRight}>
+                  <Image 
+                    source={require('./assets/icons/heartInactive.png')}
+                    style={styles.heartImg}
+                  />
+                </View>
+              </View>
+              <View style={styles.borderBottomSearchBlock} />
+            </View>
+
+            <View style={styles.mainSearchBlockView}>
+              <View style={styles.searchBlock}>
+                <View style={styles.searchBlockLeft}>
+                  <View style={styles.restaurantImgView}>
+                    <Image 
+                      source={require('./assets/images/restaurants/5.jpg')}
+                      style={styles.restaurantImg}
+                    />
+                  </View>
+                </View>
+                <View style={styles.searchBlockCenter}>
+                  <Text style={styles.restaurantName}>
+                    Dil Se Re Restaurant
+                  </Text>
+                  <Text style={styles.specialitiesTitle}>
+                    Specialities
+                  </Text>
+                  <View style={styles.specialitiesBlocksContainer}>
+                  
+                  </View> 
+                </View>
+                <View style={styles.searchBlockRight}>
+                  <Image 
+                    source={require('./assets/icons/heartInactive.png')}
+                    style={styles.heartImg}
+                  />
+                </View>
+              </View>
+              <View style={styles.borderBottomSearchBlock} />
+            </View>
+
+            <View style={styles.mainSearchBlockView}>
+              <View style={styles.searchBlock}>
+                <View style={styles.searchBlockLeft}>
+                  <View style={styles.restaurantImgView}>
+                    <Image 
+                      source={require('./assets/images/restaurants/6.jpg')}
+                      style={styles.restaurantImg}
+                    />
+                  </View>
+                </View>
+                <View style={styles.searchBlockCenter}>
+                  <Text style={styles.restaurantName}>
+                    Dil Se Re Restaurant
+                  </Text>
+                  <Text style={styles.specialitiesTitle}>
+                    Specialities
+                  </Text>
+                  <View style={styles.specialitiesBlocksContainer}>
+                  
+                  </View> 
+                </View>
+                <View style={styles.searchBlockRight}>
+                  <Image 
+                    source={require('./assets/icons/heartInactive.png')}
+                    style={styles.heartImg}
+                  />
+                </View>
+              </View>
+              <View style={styles.borderBottomSearchBlock} />
+            </View>
+
+          </View>
+        </ScrollView> :
+        <MapView
+          provider={PROVIDER_GOOGLE} 
+          style={styles.map}
+          region={{
+            latitude: 37.78825,
+            longitude: -122.4324,
+            latitudeDelta: 0.015,
+            longitudeDelta: 0.0121,
+          }}
+          customMapStyle={mapStyle}
+        />
+      }
+      
+
     </View>
   )
 }
@@ -230,18 +413,6 @@ const styles = StyleSheet.create({
   map: {
     ...StyleSheet.absoluteFillObject,
   },
-  // searchBarContainer: {
-  //   width: screenWidth * 0.9,
-  //   height: 60,
-  //   position: 'absolute',
-  //   zIndex: 10,
-  //   backgroundColor: '#fff',
-  //   top: StatusBar.currentHeight + ((screenWidth - (screenWidth * 0.9)) / 2),
-  //   marginLeft: (screenWidth - (screenWidth * 0.9)) / 2,
-  //   marginRight: (screenWidth - (screenWidth * 0.9)) / 2,
-  //   elevation: 8,
-  //   borderRadius: 8
-  // },
   bottomGrad: {
     width: screenWidth,
     height: 300,
@@ -308,6 +479,112 @@ const styles = StyleSheet.create({
     // borderColor: '#eee',
     elevation: 5,
     marginBottom: 15
+  },
+  viewChangerContainer: {
+    position: 'absolute',
+    zIndex: 5,
+    bottom: (screenWidth - (screenWidth * 0.9)) / 2,
+    // bottom: 355,
+    width: 60,
+    height: 60,
+    backgroundColor: '#fff',
+    borderRadius: 100,
+    right: (screenWidth - (screenWidth * 0.9)) / 2,
+    elevation: 5,
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  viewChangerImg: {
+    height: 30,
+    width: 30
+  },
+  searchBlocksViewContainer: {
+    width: screenWidth,
+    height: 'auto',
+    // backgroundColor: 'red',
+    alignItems: 'center',
+    paddingBottom: 20,
+    paddingTop: 10
+  },
+  searchBlock: {
+    width: screenWidth * 0.9,
+    height: 105,
+    backgroundColor: 'red',
+    // borderRadius: 8,
+    backgroundColor: '#fff',
+    // elevation: 5,
+    // marginBottom: 20,
+    // borderBottomWidth: 1,
+    // borderBottomColor: '#eee',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+   
+  },
+  borderBottomSearchBlock: {
+    width: screenWidth * 0.75,
+    height: 1,
+    backgroundColor: '#eee',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  searchBlockLeft: {
+    height: '100%',
+    // backgroundColor: 'red',
+    width: '30%',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
+    paddingLeft: 7
+  },
+  searchBlockCenter: {
+    height: '100%',
+    // backgroundColor: 'green',
+    width: '55%'
+  },
+  searchBlockRight: {
+    height: '100%',
+    width: '15%',
+    // backgroundColor: 'blue',
+    alignItems: 'center',
+    justifyContent: 'flex-start',
+  },
+  restaurantImgView: {
+    width: (screenWidth* 0.20),
+    height: (screenWidth* 0.20),
+    backgroundColor: '#ccc',
+    borderRadius: (screenWidth* 0.20) * 0.15,
+    overflow: 'hidden',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  restaurantImg: {
+    height: '100%',
+    width: '100%'
+  },
+  heartImg: {
+    height: 25,
+    width: 25,
+    opacity: 0.3
+  },
+  restaurantName: {
+    fontFamily: 'Product-Sans-Regular',
+    fontSize: 18,
+    color: '#333',
+    marginBottom: 5
+  },
+  specialitiesTitle: {
+    fontFamily: 'Product-Sans-Regular',
+    fontSize: 12,
+    color: '#ccc',
+    marginBottom: 8
+  },
+  specialitiesBlocksContainer: {
+    flexDirection: 'row',
+    // overflow: 'hidden',
+    width: '100%'
+  },
+  mainSearchBlockView: {
+    marginBottom: 45
   }
 })
 
