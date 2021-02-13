@@ -89,7 +89,7 @@ const mapStyle = [
 
 const MainScreen = () =>  {
   const [ address, setAddress ] = useState('Swagat Apartment, Anand Mahal Road, Adajan, Surat, Gujarat');
-  const [ listView, setListView ] = useState(!true);
+  const [ listView, setListView ] = useState(true);
   // const [ address, setAddress ] = useState('');
 
 
@@ -251,6 +251,10 @@ const MainScreen = () =>  {
               contentContainerStyle={{
                 paddingLeft: 20
               }}
+              scrollEventThrottle={1}
+              pagingEnabled
+              snapToInterval={CARD_WIDTH + 20}
+              snapToAlignment="center"
             >
               {mapCardsBlocksEls}
             </ScrollView>
