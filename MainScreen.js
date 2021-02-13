@@ -173,12 +173,12 @@ const MainScreen = () =>  {
           {
             listView === true ?
             <Image 
-              source={require('./assets/icons/mapView.png')}
-              style={styles.viewChangerImg}
+              source={require('./assets/icons/mapView4.png')}
+              style={[styles.viewChangerImg, { height: 28, width: 28 }]}
             /> : 
             <Image 
               source={require('./assets/icons/menuView.png')}
-              style={styles.viewChangerImg}
+              style={[styles.viewChangerImg, { height: 25, width: 25 }]}
             /> 
             
           }
@@ -192,7 +192,7 @@ const MainScreen = () =>  {
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
-            paddingTop: StatusBar.currentHeight + 10 + 65 + 20
+            paddingTop: StatusBar.currentHeight + 115
           }}
         >
           <View style={styles.searchBlocksViewContainer}>
@@ -200,188 +200,104 @@ const MainScreen = () =>  {
             <View style={styles.mainSearchBlockView}>
               <View style={styles.searchBlock}>
                 <View style={styles.searchBlockLeft}>
-                  <View style={styles.restaurantImgView}>
-                    <Image 
-                      source={require('./assets/images/restaurants/1.jpg')}
-                      style={styles.restaurantImg}
-                    />
-                  </View>
-                </View>
-                <View style={styles.searchBlockCenter}>
-                  <Text style={styles.restaurantName}>
-                    Dil Se Re Restaurant
-                  </Text>
-                  <Text style={styles.specialitiesTitle}>
-                    Specialities
-                  </Text>
-                  <View style={styles.specialitiesBlocksContainer}>
-                  
-                  </View> 
+                  <Image 
+                    source={require('./assets/images/restaurants/1.jpg')}
+                    style={styles.restaurantImage}
+                  />
                 </View>
                 <View style={styles.searchBlockRight}>
-                  <Image 
-                    source={require('./assets/icons/heartInactive.png')}
-                    style={styles.heartImg}
-                  />
+                  <View style={styles.restaurantNameContainer}>
+                    <Text
+                      style={styles.restaurantNameText}
+                      numberOfLines={1}
+                    >
+                      Dil Se Re Restaurant
+                    </Text>
+                  </View>
+                  <View style={styles.restaurantDataContainer}>
+                    <View style={styles.restaurantDataContainerLeft}>
+                      <Text style={styles.specialityTitle}>
+                        Speciality
+                      </Text>
+                      <View style={styles.specialitiesBlockContainer}>
+                        <ScrollView
+                          horizontal={true}
+                          showsHorizontalScrollIndicator={false}
+                        >
+                          <View style={styles.specialityBlockView}>
+                            <Text style={styles.specialityBlockViewText}>
+                              Gujarati
+                            </Text>
+                          </View>
+                          <View style={styles.specialityBlockView}>
+                            <Text style={styles.specialityBlockViewText}>
+                              Maharastrian
+                            </Text>
+                          </View>
+                          <View style={styles.specialityBlockView}>
+                            <Text style={styles.specialityBlockViewText}>
+                              Madwadi
+                            </Text>
+                          </View>
+                          <View style={styles.specialityBlockView}>
+                            <Text style={styles.specialityBlockViewText}>
+                              Chinese
+                            </Text>
+                          </View>
+                        </ScrollView>
+                      </View>
+                      <View style={styles.restaurantCurrentStateView}>
+                        <Text style={styles.currentStateText}>
+                          Open
+                        </Text>
+                        <View style={styles.timingBreakView} />
+                        <Text style={styles.closesText}>
+                          Closes 9 PM
+                        </Text>
+                      </View>
+                      <View style={styles.reviewsContainer}>
+                        <Text style={styles.ratingValueText}>
+                          4
+                        </Text>
+                        <View style={styles.ratingStarsContainer}>
+                          <Image 
+                            source={require('./assets/icons/star.png')}
+                            style={styles.starImg}
+                          />
+                          <Image 
+                            source={require('./assets/icons/star.png')}
+                            style={styles.starImg}
+                          />
+                          <Image 
+                            source={require('./assets/icons/star.png')}
+                            style={styles.starImg}
+                          />
+                          <Image 
+                            source={require('./assets/icons/star.png')}
+                            style={styles.starImg}
+                          />
+                        </View>
+                        <Text style={styles.totalReviews}> 
+                          (45)
+                        </Text>
+                      </View>
+                    </View>
+                    <View style={styles.restaurantDataContainerRight}>
+                      <Image 
+                        source={require('./assets/icons/heartActive.png')}
+                        style={styles.heartImg}
+                      />
+                    </View>
+                  </View>
                 </View>
               </View>
               <View style={styles.borderBottomSearchBlock} />
             </View>
 
-            <View style={styles.mainSearchBlockView}>
-              <View style={styles.searchBlock}>
-                <View style={styles.searchBlockLeft}>
-                  <View style={styles.restaurantImgView}>
-                    <Image 
-                      source={require('./assets/images/restaurants/2.jpg')}
-                      style={styles.restaurantImg}
-                    />
-                  </View>
-                </View>
-                <View style={styles.searchBlockCenter}>
-                  <Text style={styles.restaurantName}>
-                    Dil Se Re Restaurant
-                  </Text>
-                  <Text style={styles.specialitiesTitle}>
-                    Specialities
-                  </Text>
-                  <View style={styles.specialitiesBlocksContainer}>
-                  
-                  </View> 
-                </View>
-                <View style={styles.searchBlockRight}>
-                  <Image 
-                    source={require('./assets/icons/heartInactive.png')}
-                    style={styles.heartImg}
-                  />
-                </View>
-              </View>
-              <View style={styles.borderBottomSearchBlock} />
-            </View>
+            
 
-            <View style={styles.mainSearchBlockView}>
-              <View style={styles.searchBlock}>
-                <View style={styles.searchBlockLeft}>
-                  <View style={styles.restaurantImgView}>
-                    <Image 
-                      source={require('./assets/images/restaurants/3.jpg')}
-                      style={styles.restaurantImg}
-                    />
-                  </View>
-                </View>
-                <View style={styles.searchBlockCenter}>
-                  <Text style={styles.restaurantName}>
-                    Dil Se Re Restaurant
-                  </Text>
-                  <Text style={styles.specialitiesTitle}>
-                    Specialities
-                  </Text>
-                  <View style={styles.specialitiesBlocksContainer}>
-                  
-                  </View> 
-                </View>
-                <View style={styles.searchBlockRight}>
-                  <Image 
-                    source={require('./assets/icons/heartInactive.png')}
-                    style={styles.heartImg}
-                  />
-                </View>
-              </View>
-              <View style={styles.borderBottomSearchBlock} />
-            </View>
+            
 
-            <View style={styles.mainSearchBlockView}>
-              <View style={styles.searchBlock}>
-                <View style={styles.searchBlockLeft}>
-                  <View style={styles.restaurantImgView}>
-                    <Image 
-                      source={require('./assets/images/restaurants/4.jpg')}
-                      style={styles.restaurantImg}
-                    />
-                  </View>
-                </View>
-                <View style={styles.searchBlockCenter}>
-                  <Text style={styles.restaurantName}>
-                    Dil Se Re Restaurant
-                  </Text>
-                  <Text style={styles.specialitiesTitle}>
-                    Specialities
-                  </Text>
-                  <View style={styles.specialitiesBlocksContainer}>
-                  
-                  </View> 
-                </View>
-                <View style={styles.searchBlockRight}>
-                  <Image 
-                    source={require('./assets/icons/heartInactive.png')}
-                    style={styles.heartImg}
-                  />
-                </View>
-              </View>
-              <View style={styles.borderBottomSearchBlock} />
-            </View>
-
-            <View style={styles.mainSearchBlockView}>
-              <View style={styles.searchBlock}>
-                <View style={styles.searchBlockLeft}>
-                  <View style={styles.restaurantImgView}>
-                    <Image 
-                      source={require('./assets/images/restaurants/5.jpg')}
-                      style={styles.restaurantImg}
-                    />
-                  </View>
-                </View>
-                <View style={styles.searchBlockCenter}>
-                  <Text style={styles.restaurantName}>
-                    Dil Se Re Restaurant
-                  </Text>
-                  <Text style={styles.specialitiesTitle}>
-                    Specialities
-                  </Text>
-                  <View style={styles.specialitiesBlocksContainer}>
-                  
-                  </View> 
-                </View>
-                <View style={styles.searchBlockRight}>
-                  <Image 
-                    source={require('./assets/icons/heartInactive.png')}
-                    style={styles.heartImg}
-                  />
-                </View>
-              </View>
-              <View style={styles.borderBottomSearchBlock} />
-            </View>
-
-            <View style={styles.mainSearchBlockView}>
-              <View style={styles.searchBlock}>
-                <View style={styles.searchBlockLeft}>
-                  <View style={styles.restaurantImgView}>
-                    <Image 
-                      source={require('./assets/images/restaurants/6.jpg')}
-                      style={styles.restaurantImg}
-                    />
-                  </View>
-                </View>
-                <View style={styles.searchBlockCenter}>
-                  <Text style={styles.restaurantName}>
-                    Dil Se Re Restaurant
-                  </Text>
-                  <Text style={styles.specialitiesTitle}>
-                    Specialities
-                  </Text>
-                  <View style={styles.specialitiesBlocksContainer}>
-                  
-                  </View> 
-                </View>
-                <View style={styles.searchBlockRight}>
-                  <Image 
-                    source={require('./assets/icons/heartInactive.png')}
-                    style={styles.heartImg}
-                  />
-                </View>
-              </View>
-              <View style={styles.borderBottomSearchBlock} />
-            </View>
 
           </View>
         </ScrollView> :
@@ -433,14 +349,14 @@ const styles = StyleSheet.create({
   },
   searchBarMainContainer: {
     // height: StatusBar.currentHeight + 65,
-    height: 65,
+    height: 62.5,
     width: screenWidth * 0.9,
     backgroundColor: '#fff',
     elevation: 8,
     position: 'absolute',
     top: 0,
     zIndex: 2,
-    top: StatusBar.currentHeight + 10,
+    top: StatusBar.currentHeight + 20,
     left: (screenWidth - (screenWidth * 0.9)) / 2,
     right: (screenWidth - (screenWidth * 0.9)) / 2,
     borderRadius: 8,
@@ -506,85 +422,158 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
     paddingTop: 10
   },
+  mainSearchBlockView: {
+    marginBottom: 45,
+    justifyContent: 'center',
+    alignItems: 'center',
+    // alignItems: 'flex-end',
+    flexDirection: 'column',
+  },
   searchBlock: {
     width: screenWidth * 0.9,
-    height: 105,
-    backgroundColor: 'red',
-    // borderRadius: 8,
-    backgroundColor: '#fff',
-    // elevation: 5,
-    // marginBottom: 20,
-    // borderBottomWidth: 1,
-    // borderBottomColor: '#eee',
+    height: 'auto',
+    // minHeight: (( screenWidth * 0.9) * 0.35) + 20,
+    minHeight: 150,
+    // backgroundColor: 'grey',
+    // backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',
-   
+    paddingBottom: 15
   },
   borderBottomSearchBlock: {
-    width: screenWidth * 0.75,
+    width: screenWidth * 0.8,
+    // width: screenWidth * 0.65,
     height: 1,
     backgroundColor: '#eee',
-    marginLeft: 'auto',
-    marginRight: 'auto',
+    // marginRight: 5
+    // marginLeft: 'auto',
+    // marginRight: 'auto',
   },
   searchBlockLeft: {
     height: '100%',
-    // backgroundColor: 'red',
-    width: '30%',
-    justifyContent: 'flex-start',
-    alignItems: 'flex-start',
-    paddingLeft: 7
-  },
-  searchBlockCenter: {
-    height: '100%',
-    // backgroundColor: 'green',
-    width: '55%'
+    // backgroundColor: 'grey',
+    width: '37%',
+    // paddingTop: 10,
+    justifyContent: 'center'
   },
   searchBlockRight: {
     height: '100%',
-    width: '15%',
     // backgroundColor: 'blue',
-    alignItems: 'center',
-    justifyContent: 'flex-start',
-  },
-  restaurantImgView: {
-    width: (screenWidth* 0.20),
-    height: (screenWidth* 0.20),
-    backgroundColor: '#ccc',
-    borderRadius: (screenWidth* 0.20) * 0.15,
-    overflow: 'hidden',
+    width: '63%',
+    flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center'
   },
-  restaurantImg: {
+  restaurantImage: {
+    // height: ( screenWidth * 0.9) * 0.30,
+    // width: ( screenWidth * 0.9) * 0.30,
+    // borderRadius: ( screenWidth * 0.9) * 0.02
+    height: 120,
+    width: 120,
+    borderRadius: 10
+  },
+  restaurantNameContainer: {
+    width: '100%',
+    height: 30,
+    // backgroundColor: 'green'
+  },
+  restaurantNameText: {
+    color: '#333',
+    fontFamily: 'Product-Sans-Regular',
+    fontSize: 20
+  },
+  restaurantDataContainer: {
+    width: '100%',
+    height: 120,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  restaurantDataContainerLeft: {
     height: '100%',
-    width: '100%'
+    width: '85%',
+    // backgroundColor: 'red'
+  },
+  restaurantDataContainerRight: {
+    height: '100%',
+    width: '15%',
+    // backgroundColor: 'green',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-end',
+    paddingTop: 25
+  },
+  specialityTitle: {
+    fontSize: 13,
+    color: '#ccc',
+    fontFamily: 'Product-Sans-Regular'
   },
   heartImg: {
-    height: 25,
-    width: 25,
-    opacity: 0.3
+    height: 20,
+    width: 20
   },
-  restaurantName: {
-    fontFamily: 'Product-Sans-Regular',
-    fontSize: 18,
-    color: '#333',
-    marginBottom: 5
+  specialitiesBlockContainer: {
+    height: 45,
+    width: '100%',
+    // backgroundColor: 'red',
+    paddingTop: 6
   },
-  specialitiesTitle: {
-    fontFamily: 'Product-Sans-Regular',
-    fontSize: 12,
-    color: '#ccc',
-    marginBottom: 8
+  specialityBlockView: {
+    justifyContent: 'center',
+    alignItems:'center',
+    borderWidth: 1,
+    // borderColor: '#333',
+    borderColor: 'orange',
+    backgroundColor: 'orange',
+    paddingLeft: 16,
+    paddingRight: 16,
+    height: 38,
+    borderRadius: 5,
+    marginRight: 7
   },
-  specialitiesBlocksContainer: {
+  specialityBlockViewText: {
+    fontSize: 16,
+    color: '#fff',
+    // color: '#555',
+    fontFamily: 'Product-Sans-Regular'
+  },
+  restaurantCurrentStateView: {
     flexDirection: 'row',
-    // overflow: 'hidden',
-    width: '100%'
+    alignItems: 'center',
+    paddingTop: 8,
+    paddingBottom: 8
   },
-  mainSearchBlockView: {
-    marginBottom: 45
+  timingBreakView: {
+    height: 5,
+    width: 5,
+    backgroundColor: '#ccc',
+    borderRadius:10,
+    marginLeft: 7,
+    marginRight: 7
+  },
+  currentStateText: {
+    fontSize: 15,
+    color: '#333',
+    fontFamily: 'Product-Sans-Regular'
+  },
+  closesText: {
+    fontSize: 15,
+    color: '#333',
+    fontFamily: 'Product-Sans-Regular'
+  },
+  reviewsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  ratingStarsContainer: {
+    flexDirection: 'row',
+    paddingLeft: 5,
+    paddingRight: 2.5
+  },
+  starImg: {
+    height: 20,
+    width: 20,
+    marginRight: 2.5,
   }
 })
 
