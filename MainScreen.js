@@ -13,7 +13,8 @@ import {
   PermissionsAndroid,
   Button,
   TouchableOpacity,
-  FlatList
+  FlatList,
+  Animated
 } from 'react-native';
 import uuid from 'react-native-uuid';
 import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
@@ -24,7 +25,7 @@ import Geocoder from 'react-native-geocoding';
 import SearchListBlock from './components/SearchListBlock';
 import MapSearchCardsBlock from './components/MapSearchCardsBlock';
 import RestaurantData from './models/RestaurantData';
-
+import MapStyle from './src/MapStyle';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -32,58 +33,6 @@ const CARD_WIDTH = (screenWidth * 0.7);
 
 Geocoder.init("AIzaSyD2oqHl_llg79GSg5_-e5Ne4qtYPZ1tuA0")
 
-const mapStyle = [
-  {
-    "elementType": "labels",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative",
-    "elementType": "geometry",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "administrative.neighborhood",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "poi",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "road",
-    "elementType": "labels.icon",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  },
-  {
-    "featureType": "transit",
-    "stylers": [
-      {
-        "visibility": "off"
-      }
-    ]
-  }
-]
 
 
 
@@ -93,12 +42,40 @@ const MainScreen = () =>  {
   // const [ address, setAddress ] = useState('');
 
 
+  let listViewHandlerBottomValue = new Animated.Value(20)
+  const [ listViewHandlerBottomState, setListViewHandlerBottomState ] = useState(true);
+
+  const listViewHandlerAnimation = () => {
+    if ( listViewHandlerBottomState == true ) {
+      Animated.timing(listViewHandlerBottomValue, {
+        toValue : 360,
+        timing : 0,
+        useNativeDriver: false
+      }).start(() => {
+        setListViewHandlerBottomState(false)
+      })
+    } else {
+      Animated.timing(listViewHandlerBottomValue, {
+        toValue : 20,
+        timing : 0,
+        useNativeDriver: false
+      }).start(() => {
+        setListViewHandlerBottomState(true)
+      })
+    }
+  }
+
+
+  const listViewHandlerBottomAnimatedStyle = {
+    bottom: listViewHandlerBottomValue
+  }
 
 
 
   const viewChangeHandler = (listView) => {
     setListView(!listView)
   }
+
   async function requestLocationPermission() {
     const checkLocationPermission = PermissionsAndroid.check(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
     if (checkLocationPermission === PermissionsAndroid.RESULTS.GRANTED) {
@@ -196,6 +173,7 @@ const MainScreen = () =>  {
 
       <TouchableNativeFeedback
         onPress={() => viewChangeHandler(listView)}
+        // onPress={() => listViewHandlerAnimation()}
       >
         <View 
           style={[styles.viewChangerContainer, {
@@ -203,7 +181,11 @@ const MainScreen = () =>  {
 
           }]}
         >
+        {/* <Animated.View 
+          style={[styles.viewChangerContainer, listViewHandlerBottomAnimatedStyle]}
+        > */}
           {
+            // listViewHandlerBottomState === true ?
             listView === true ?
             <Image 
               source={require('./assets/icons/mapView4.png')}
@@ -216,11 +198,13 @@ const MainScreen = () =>  {
             
           }
         </View>
+        {/* </Animated.View> */}
       </TouchableNativeFeedback>
 
 
       
       {
+        // listViewHandlerBottomState === true ?
         listView === true ?
         <ScrollView
           showsVerticalScrollIndicator={false}
@@ -242,7 +226,7 @@ const MainScreen = () =>  {
               latitudeDelta: 0.015,
               longitudeDelta: 0.0121,
             }}
-            customMapStyle={mapStyle}
+            customMapStyle={MapStyle}
           />
           <View style={styles.mapSearchCardsContainer}>
             <ScrollView
