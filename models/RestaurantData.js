@@ -14,10 +14,10 @@ const RestaurantData = [
   },
   {
     restaurantId: 2,
-    restaurantName: 'Dil Se Re Restaurant',
+    restaurantName: 'Barbeque Nation',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/2.jpg'),
-      restaurantSpecialities: [ 'Gujarati', 'Madwadi', 'MarMaharastrianathi', 'Rajasthani' ],
+      restaurantSpecialities: [ 'Continental', 'Inter-Continental' ],
       restaurantRating: 5,
       distanceToRestaurant: '1.05 Km',
       currentState: 'Closed',
@@ -27,10 +27,10 @@ const RestaurantData = [
   },
   {
     restaurantId: 3,
-    restaurantName: 'Dil Se Re Restaurant',
+    restaurantName: 'Wok On Fire',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/3.jpg'),
-      restaurantSpecialities: [ 'Madwadi', 'Rajasthani' ],
+      restaurantSpecialities: [ 'Madwadi', 'Rajasthani', 'Continental', 'Inter-Continental'  ],
       restaurantRating: 4,
       distanceToRestaurant: '2.3 Km',
       currentState: 'Open',
@@ -40,7 +40,7 @@ const RestaurantData = [
   },
   {
     restaurantId: 4,
-    restaurantName: 'Dil Se Re Restaurant',
+    restaurantName: 'Spice Villa Restaurant',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/4.jpg'),
       restaurantSpecialities: [ 'Jain', 'Gujarati', 'Continental', 'Inter-Continental' ],
@@ -53,10 +53,10 @@ const RestaurantData = [
   },
   {
     restaurantId: 5,
-    restaurantName: 'Dil Se Re Restaurant',
+    restaurantName: 'Kansar Gujarati Thali',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/5.jpg'),
-      restaurantSpecialities: [ 'Soth-Indian', 'Sri-Lankan', 'Chinese' ],
+      restaurantSpecialities: [ 'South-Indian', 'Sri-Lankan', 'Chinese' ],
       restaurantRating: 2,
       distanceToRestaurant: '2.7 Km',
       currentState: 'Closed',
@@ -66,7 +66,7 @@ const RestaurantData = [
   },
   {
     restaurantId: 6,
-    restaurantName: 'Dil Se Re Restaurant',
+    restaurantName: 'Sasumaa Gujarati Thali',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/6.jpg'),
       restaurantSpecialities: [ 'Gujarati', 'Sindhi' ,'Rajasthani' ],

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -12,18 +12,21 @@ import {
   TextInput,
   PermissionsAndroid,
   Button,
-  TouchableOpacity
+  TouchableOpacity,
+  FlatList
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
 import uuid from 'react-native-uuid';
+import LinearGradient from 'react-native-linear-gradient';
+
 
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
-const CARD_WIDTH = (screenWidth * 0.8);
+const CARD_WIDTH = (screenWidth * 0.7);
 
 
-const SearchListBlock = (props) => {
+
+const MapSearchCardsBlock = (props) => {
   const starNumbers = props.restaurantData.restaurantRating;
   let stars = [];
 
@@ -51,20 +54,18 @@ const SearchListBlock = (props) => {
 
 
 
-  
-
   return (
-    <View style={styles.searchBlockMain} >
+    <View style={styles.mainMapCardView}>
       <Image 
         source={props.restaurantData.restaurantImgUrl}
-        style={styles.restaurantMainImg}
+        style={styles.mapCardMainImg}
       />
-      <View style={styles.restaurantDataContainer}>
+      <View style={styles.mainMapCardRestaurantDataView}>
         <LinearGradient
           style={styles.restaurantDataContainerGradient}
           colors={[ 'transparent', '#14141475', '#141414' ]}
         >
-          <View style={styles.restaurantDataContainerInner}>
+          <View style={styles.mapRestaurantDataContainerInner}>
             <View style={styles.restaurantDataContainerInnerBottom}>
               <View style={styles.restaurantNameContainer}>
                 <Text 
@@ -74,8 +75,8 @@ const SearchListBlock = (props) => {
                   {props.restaurantName}
                 </Text>
               </View>
-              <View style={styles.restaurantDataContainerMain}>
-                <View style={styles.restaurantDataContainerLeft}>
+              <View style={styles.mapRestaurantDataContainerMain}>
+                <View style={styles.restaurantDataContainerMid}>
                   <View style={styles.specialityTitleTextView}>
                     <Text style={styles.specialityTitleText}>
                       Speciality
@@ -83,7 +84,7 @@ const SearchListBlock = (props) => {
                   </View>
                   <View style={styles.specialitiesBlockContainer}>
                     <ScrollView
-                      horizontal={true}
+                      horizontal
                       showsHorizontalScrollIndicator={false}
                       contentContainerStyle={{
                         paddingLeft: 15
@@ -116,9 +117,7 @@ const SearchListBlock = (props) => {
                     </Text>
                   </View>
 
-
                 </View>
-
               </View>
             </View>
           </View>
@@ -129,74 +128,65 @@ const SearchListBlock = (props) => {
 }
 
 const styles = StyleSheet.create({
-  searchBlockMain: {
-    height: 280,
-    width: (screenWidth * 0.9),
+  mainMapCardView: {
+    width: CARD_WIDTH,
+    height: 320,
+    // backgroundColor: 'red',
     borderRadius: 10,
-    marginBottom: 15
+    marginRight: 20
   },
-  restaurantMainImg: {
+  mapCardMainImg: {
     height: '100%',
     width: '100%',
     borderRadius: 10
   },
-  restaurantDataContainer: {
+  mainMapCardRestaurantDataView: {
     width: '100%',
     height: '100%',
-    borderRadius: 10,
-    // backgroundColor: '#00000099',
     position: 'absolute',
     top: 0,
-    zIndex: 1
+    zIndex: 1,
+    // backgroundColor: 'red',
+    borderRadius: 10
   },
   restaurantDataContainerGradient: {
     width: '100%',
     height: '100%',
-    borderRadius: 10,
+    borderRadius: 10
   },
-  restaurantDataContainerInner: {
+  mapRestaurantDataContainerInner: {
     width: '100%',
     height: '100%',
+    // backgroundColor: 'red',
     borderRadius: 10,
-    flexDirection: 'column',
     justifyContent: 'flex-end'
   },
   restaurantDataContainerInnerBottom: {
-    backgroundColor: 'transparent',
+    height: 320 * 0.525,
+    width: '100%',
     // backgroundColor: 'red',
-    height: 280 * 0.58,
-    borderRadius: 10,
+    borderRadius: 10
   },
   restaurantNameContainer: {
     width: '100%',
     // backgroundColor: 'red',
     paddingLeft: 15,
     paddingRight: 15,
-    height: 32
+    height: 35
   },
   restaurantNameText: {
     color: '#fff',
     fontFamily: 'Product-Sans-Regular',
     fontSize: 23
   },
-  restaurantDataContainerMain: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+  mapRestaurantDataContainerMain: {
     width: '100%',
-    height: (280 * 0.58) - 32,
+    height:  (320 * 0.525) - 35,
     // backgroundColor: 'red'
   },
-  restaurantDataContainerLeft: {
+  restaurantDataContainerMid: {
     height: '100%',
     width: '100%',
-    // width: '85%',
-    // backgroundColor: 'green'
-  },
-  restaurantDataContainerRight: {
-    height: '100%',
-    width: '15%',
-    // backgroundColor: 'blue'
   },
   specialityTitleTextView: {
     width: '100%',
@@ -208,12 +198,22 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: 'Product-Sans-Regular'
   },
+  mapRestaurantDataCardScrollviewView: {
+    width: '100%',
+    height: 60,
+    backgroundColor: 'red',
+  },
   specialitiesBlockContainer: {
     height: 50,
     width: '100%',
     // backgroundColor: 'red',
     paddingTop: 7,
     // paddingLeft: 15,
+    // flexWrap: 'wrap',
+    // flexDirection: 'row',
+    // paddingLeft: 15,
+    // overflow: 'scroll',
+    // scrol
   },
   specialityBlockView: {
     justifyContent: 'center',
@@ -226,7 +226,8 @@ const styles = StyleSheet.create({
     paddingRight: 16,
     height: 38,
     borderRadius: 5,
-    marginRight: 7
+    marginRight: 7,
+    marginBottom: 7
   },
   specialityBlockViewText: {
     fontSize: 16,
@@ -287,8 +288,7 @@ const styles = StyleSheet.create({
     fontFamily: 'Product-Sans-Regular'
   }
 
-
 })
 
 
-export default SearchListBlock;
+export default MapSearchCardsBlock;
