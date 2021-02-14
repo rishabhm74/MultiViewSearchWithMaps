@@ -31,7 +31,7 @@ const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
 const CARD_WIDTH = (screenWidth * 0.7);
 
-Geocoder.init("AIzaSyD2oqHl_llg79GSg5_-e5Ne4qtYPZ1tuA0")
+Geocoder.init("key")
 
 
 
