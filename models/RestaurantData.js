@@ -1,6 +1,10 @@
 const RestaurantData = [
   {
     restaurantId: 1,
+    coordinate: {
+      latitude: 22.6293867,
+      longitude: 88.4354486,
+    },
     restaurantName: 'Dil Se Re Restaurant',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/1.jpg'),
@@ -14,6 +18,10 @@ const RestaurantData = [
   },
   {
     restaurantId: 2,
+    coordinate: {
+      latitude: 22.6345648,
+      longitude: 88.4377279,
+    },
     restaurantName: 'Barbeque Nation',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/2.jpg'),
@@ -27,6 +35,10 @@ const RestaurantData = [
   },
   {
     restaurantId: 3,
+    coordinate: {
+      latitude: 22.6281662,
+      longitude: 88.4410113,
+    },
     restaurantName: 'Wok On Fire',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/3.jpg'),
@@ -40,6 +52,10 @@ const RestaurantData = [
   },
   {
     restaurantId: 4,
+    coordinate: {
+      latitude: 22.6341137,
+      longitude: 88.4497463,
+    },
     restaurantName: 'Spice Villa Restaurant',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/4.jpg'),
@@ -53,6 +69,10 @@ const RestaurantData = [
   },
   {
     restaurantId: 5,
+    coordinate: {
+      latitude: 22.6292757,
+      longitude: 88.444781,
+    },
     restaurantName: 'Kansar Gujarati Thali',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/5.jpg'),
@@ -66,6 +86,10 @@ const RestaurantData = [
   },
   {
     restaurantId: 6,
+    coordinate: {
+      latitude: 22.6293867,
+      longitude: 88.4354486,
+    },
     restaurantName: 'Sasumaa Gujarati Thali',
     restaurantData: {
       restaurantImgUrl: require('../assets/images/restaurants/6.jpg'),

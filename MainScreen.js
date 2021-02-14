@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   SafeAreaView,
   StyleSheet,
@@ -17,7 +17,7 @@ import {
   Animated
 } from 'react-native';
 import uuid from 'react-native-uuid';
-import MapView, { PROVIDER_GOOGLE } from 'react-native-maps';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import LinearGradient from 'react-native-linear-gradient';
 import Geolocation from 'react-native-geolocation-service';
 import Geocoder from 'react-native-geocoding';
@@ -41,6 +41,12 @@ const MainScreen = () =>  {
   const [ listView, setListView ] = useState(true);
   // const [ address, setAddress ] = useState('');
 
+  const initialRegion = {
+    latitude: 22.62938671242907,
+    longitude: 88.4384486029795,
+    latitudeDelta: 0.04864195044303443,
+    longitudeDelta:0.040142817690068,
+  }
 
   let listViewHandlerBottomValue = new Animated.Value(20)
   const [ listViewHandlerBottomState, setListViewHandlerBottomState ] = useState(true);
@@ -136,6 +142,41 @@ const MainScreen = () =>  {
     return console.log("done")
   }, [])
 
+  let mapIndex = 0;
+  let mapAnimation = new Animated.Value(0);
+
+  useEffect(() => {
+    mapAnimation.addListener(({ value }) => {
+      let index = Math.floor(value / CARD_WIDTH + 0.3);
+      // console.log(index)
+      if ( index >= RestaurantData.length ) {
+        console.log(index)
+        index = RestaurantData.length - 1;
+      } 
+      if ( index <= 0 ) {
+        index = 0
+      }
+
+      clearTimeout(regionTimeout);
+
+      const regionTimeout = setTimeout(() => {
+        if (mapIndex !== index) {
+          mapIndex = index;
+          // console.log(" mapIndex ", mapIndex)
+          const { coordinate } = RestaurantData[index];
+           _map.current.animateToRegion(
+              {
+                ...coordinate,
+                latitudeDelta: initialRegion.latitudeDelta,
+                longitudeDelta: initialRegion.longitudeDelta
+              },
+              350
+           );
+        }
+      }, 10)
+    })
+  });
+
 
   const searchListBlockEls = RestaurantData.map(item => 
     <SearchListBlock 
@@ -152,6 +193,37 @@ const MainScreen = () =>  {
       restaurantData = {item.restaurantData}
     />
   )
+
+  const interpolations = RestaurantData.map(( marker, index ) => {
+    const inputRange = [
+      (index - 1 ) + CARD_WIDTH,
+      index + CARD_WIDTH,
+      ((index + 1) + CARD_WIDTH)
+    ];
+    
+    const scale = mapAnimation.interpolate({
+      inputRange: inputRange,
+      outputRange: [ 1, 1.5, 1],
+      extrapolate: 'clamp'
+    });
+
+    return { scale };
+  })
+
+  
+  const onMarkerPress = (mapEventData) => {
+    const markerId = mapEventData._targetInst.return.key;
+    let x = (markerId * CARD_WIDTH) + ( markerId * 20 );
+    _scrollView.current.scrollTo({ x: x, y:0, animated: true })
+    // console.log("marker id ", markerId)
+    // console.log("x ", x)
+    // console.log("_scrollview ", _scrollView.current)
+  }
+
+  const _map = useRef(null);
+  // var _scrollView = React.createRef(null);
+  const _scrollView = useRef(null);
+
 
 
   return (
@@ -176,10 +248,7 @@ const MainScreen = () =>  {
         // onPress={() => listViewHandlerAnimation()}
       >
         <View 
-          style={[styles.viewChangerContainer, {
-            bottom: listView === true ? (screenWidth - (screenWidth * 0.9)) / 2 : 360
-
-          }]}
+          style={styles.viewChangerContainer}
         >
         {/* <Animated.View 
           style={[styles.viewChangerContainer, listViewHandlerBottomAnimatedStyle]}
@@ -220,16 +289,52 @@ const MainScreen = () =>  {
           <MapView
             provider={PROVIDER_GOOGLE} 
             style={styles.map}
-            region={{
-              latitude: 37.78825,
-              longitude: -122.4324,
-              latitudeDelta: 0.015,
-              longitudeDelta: 0.0121,
-            }}
+            region={initialRegion}
             customMapStyle={MapStyle}
-          />
+            ref={_map}
+          >
+            <Marker 
+              coordinate={{
+                latitude: initialRegion.latitude,
+                longitude: initialRegion.longitude
+              }}
+            >
+              <Image 
+                source={require('./assets/icons/markerCircle.png')}
+                resizeMode="contain"
+                style={{ height: 25,width: 25 }}
+              />
+            </Marker>
+            {
+              RestaurantData.map(( marker, index ) => {
+                const scaleStyle = {
+                  transform: [
+                    {
+                      scale: interpolations[index].scale,
+                    },
+                  ],
+                }
+                return (
+                  <MapView.Marker 
+                    key={index} 
+                    coordinate={marker.coordinate} 
+                    onPress={(e) => onMarkerPress(e)}
+                  >
+                    <Animated.View style={[styles.markerWrap]}>
+                      <Animated.Image 
+                        source={require('./assets/icons/restaurantMarker.png')}
+                        style={[styles.marker, scaleStyle]}
+                        resizeMode="cover"
+                      />
+                    </Animated.View>
+                  </MapView.Marker>
+                )
+              })
+            }
+
+          </MapView>
           <View style={styles.mapSearchCardsContainer}>
-            <ScrollView
+            <Animated.ScrollView
               horizontal={true}
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{
@@ -239,9 +344,33 @@ const MainScreen = () =>  {
               pagingEnabled
               snapToInterval={CARD_WIDTH + 20}
               snapToAlignment="center"
+              onScroll={Animated.event(
+                [
+                  {
+                    nativeEvent: {
+                      contentOffset: {
+                        x: mapAnimation,
+                      }
+                    }
+                  }
+                ],
+                {
+                  useNativeDriver: true
+                }
+              )}
+              ref={_scrollView}
             >
-              {mapCardsBlocksEls}
-            </ScrollView>
+              {/* {mapCardsBlocksEls} */}
+              {
+                RestaurantData.map(item => 
+                  <MapSearchCardsBlock 
+                    key = {item.restaurantId}
+                    restaurantName = {item.restaurantName}
+                    restaurantData = {item.restaurantData}
+                  />
+                )
+              }
+            </Animated.ScrollView>
           </View>
         </>
         
@@ -295,10 +424,12 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: '#fff',
     borderRadius: 100,
-    right: (screenWidth - (screenWidth * 0.9)) / 2,
+    // right: (screenWidth - (screenWidth * 0.9)) / 2,
     elevation: 5,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    bottom: 20,
+    right: 20
   },
   viewChangerImg: {
     height: 30,
@@ -323,6 +454,16 @@ const styles = StyleSheet.create({
     height: '100%',
     width: '100%'
   },
+  markerWrap: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: 50,
+    height: 50
+  },
+  marker: {
+    height: 25,
+    width: 25
+  }
 
 })
 
